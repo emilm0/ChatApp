@@ -1,2 +1,2 @@
 # ChatApp
-Simple chat application for students in php language
+Simple chat application for students. It wrriten in php language. 

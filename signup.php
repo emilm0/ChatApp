@@ -27,36 +27,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@500&family=Sansita+Swashed&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&family=Mansalva&family=Rock+Salt&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" type="text/css" href="css/signin.css">
+    <link rel="stylesheet" type="text/css" href="css/signup.css">
 
-    <title>Login to your account</title>
+    <title>Create new Account</title>
 </head>
 
 <body>
-    <div class="signin-form">
+    <div class="signup-form">
         <form action="" method="post">
             <div class="form-header">
-                <h2>Sign In</h2>
-                <p>Login to ChatApp</p>
+                <h2>Sign Up</h2>
+                <p>Fill out this form and start chating with your friends</p>
             </div>
             <div class="form-group">
-                <label>Login</label>
-                <input class="form-control" name="Login" placeholder="Your login" autocomplete="off"
+                <input class="form-control" name="user_first_name" placeholder="First name" 
+                    autocomplete="off" required="">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="user_last_name" placeholder="Last name" 
+                    autocomplete="off" required="">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="user_ogin" placeholder="Login" autocomplete="off"
                     required="">
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="pass" placeholder="Password" autocomplete="off"
-                    required="">
+                <input type="password" class="form-control" name="user_pass" placeholder="Password"
+                    autocomplete="off" required="">
             </div>
-            <div class="small">Forgot password? <a href="forgot_pass.php">Click Here</a></div> <br>
+            
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block btn-lg" name="sign_in">Sign in</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" name="sign_up">Sign Up</button>
             </div>
-            <?php //include("signin_user.php"); ?>
-            <div class="text-center small" style="color: #674288;">Don't have an account?
-                <a href="signup.php">Create one</a></a>
-             </div>
+            <?php //include("signup_user.php"); ?>
+            <div class="text-center small" style="color: #674288;">Already have an account?
+                <a href="signin.php">Sign here</a></a>
+            </div>
         </form>
     </div>
 

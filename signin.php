@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label>Login</label>
-                <input class="form-control" name="Login" placeholder="Your login" autocomplete="off"
+                <input class="form-control" name="login" placeholder="Your login" autocomplete="off"
                     required="">
             </div>
             <div class="form-group">
@@ -53,7 +53,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block btn-lg" name="sign_in">Sign in</button>
             </div>
-            <?php //include("signin_user.php"); ?>
+            <?php include("signin_user.php"); ?>
             <div class="text-center small" style="color: #674288;">Don't have an account?
                 <a href="signup.php">Create one</a></a>
              </div>

@@ -1,4 +1,16 @@
 <!DOCTYPE html>
+<?php
+session_start();
+include("include/connection.php");
+
+if(!isset($_SESSION['user_login'])){
+    header("location:signin.php");
+}else{
+    $userIn = $_SESSION['user_login'];
+    $update_stat= mysqli_query($con, "UPDATE users SET user_in=true
+                            WHERE user_login='$userIn'");
+
+?>
 <html>
 <head>
     <title>School Chat - HOME</title>
@@ -19,6 +31,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+
 </head>
 <body>
     <div class="container main-section">
@@ -32,7 +46,7 @@
                 </div>
                 <div class="left-chat">
                     <ul>
-                        <?php include("include/get_users_data.php"); ?>
+                        <?php include("include/get_user_data.php"); ?>
                     </ul>
                 </div>
             </div>
@@ -47,11 +61,12 @@
 
                         $user_id = $row['user_id'];
                         $userlogin = $row['user_login'];
+                        $user_profile_img = $row['user_profile'];
                     ?>
 
                     <?php
                     // getting the user data on which user click
-                        if(isset($GET['user_login'])){
+                        if(isset($_GET['user_login'])){
 
                             global $con;
 
@@ -62,29 +77,30 @@
                             $row_user = mysqli_fetch_array($run_user);
 
                             $user_login = $row_user['user_login'];
-                            $user_profile_image = $row_user['user_profile'];
+                            $user_profile = $row_user['user_profile'];
                         }
                         
-                        $total_message = "select * form users_chat where
-                            (sender_user_login = '$userlogin' AND receiver_user_login= '$user_login')
-                            OR (receiver_user_login='$userlogin' AND sender_user_login = '$user_login')";
+                        $total_message = "select * from users_chat where (sender_user_login = '$user' 
+                            AND receiver_user_login= '$user_login') OR (receiver_user_login='$user' 
+                            AND sender_user_login = '$user_login')";
                         $run_messages = mysqli_query($con, $total_message);
+
                         $total = mysqli_num_rows($run_messages);
                     ?>
                     <div class = "col-md-12 right-header">
                         <div class ="right-header-img">
-                            <img src="<?php echo"$user_profile_image"; ?>">
+                            <img src="<?php echo"$user_profile_img"; ?>">
                         </div>
                         <div class="right-header-detail">
                             <form method="post">
-                                <p><?php echo "user_login"; ?></p>
-                                <span><?php echo $total; ?> message</span>&nbsp &nbsp
-                                <button name ="logout" class="btn btn-denger">Logout</button> 
+                                <p><?php echo "$user"; ?></p>
+                                <span><?php echo "$total"; ?> message</span>&nbsp &nbsp
+                                <button name ="logout" class="btn btn-danger">Logout</button> 
                             </form>
                             <?php
                                 if(isset($_POST['logout'])){
-                                    $update_msg = mysqli_query($con, "UPDATE users SET log_in='Offline'
-                                        WHERE userlogin='$userlogin'");
+                                    $update_msg = mysqli_query($con, "UPDATE users SET user_in=false
+                                        WHERE user_login='$userlogin'");
                                     header("Location:logout.php");
                                     exit();
 
@@ -98,14 +114,11 @@
                         <?php
 
                             $udate_msg = mysqli_query($con, "UPDATE users_chat SET msg_status='read'
-                                WHERE sender_user_login = '$user_login' AND receiver_user_login='$user_id'");
+                                WHERE sender_user_login = '$user_login' AND receiver_user_login='$userlogin'");
 
-                            $sel_msg = "select * form users_chat where
-                            (sender_user_login = '$userlogin' AND receiver_user_login= '$user_login')
-                            OR (receiver_user_login='$userlogin' AND sender_user_login = '$user_login')
-                            ORDER by 1 ASC";
+                            $sel_msg = "select * from users_chat where (sender_user_login = '$user' AND receiver_user_login= '$user_login')
+                                 OR (receiver_user_login='$user' AND sender_user_login = '$user_login') ORDER by 1 ASC";
                             $run_msq = mysqli_query($con, $sel_msg);
-
                             while ($row = mysqli_fetch_array($run_msq)) {
 
                                 $sender_user_login = $row['sender_user_login'];
@@ -117,7 +130,7 @@
                         <ul>
                             <?php
 
-                                if($userlogin == $sender_user_login AND
+                                if($user == $sender_user_login AND
                                      $user_login == $reciever_user_login){
 
                                     echo"
@@ -130,7 +143,7 @@
                                      ";
                                 }
 
-                                else if($userlogin == $reciever_user_login AND
+                                else if($user == $reciever_user_login AND
                                     $user_login == $sender_user_login){
 
                                  echo"
@@ -194,3 +207,4 @@
 </body>
 
 </html>
+    <?php } ?>
